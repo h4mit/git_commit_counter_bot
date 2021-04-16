@@ -20,11 +20,11 @@ bot.on("message", async (msg) => {
   const report = "report";
   if (msg.text.toString().toLowerCase().includes(total)) {
     const company = parseTotalCompany(msg.text.toString());
-    const totalTime = await calculateWorkLog(company);
+    const totalTime = await calculateWorkLog(`${msg.chat.id}_${company}`);
     bot.sendMessage(msg.chat.id, `company ${company} : ${totalTime}`);
   } else if (msg.text.toString().toLowerCase().includes(reset)) {
     const company = parseResetCompany(msg.text.toString());
-    const backup = backupCompany(company);
+    const backup = backupCompany(`${msg.chat.id}_${company}`);
     bot.sendMessage(
       msg.chat.id,
       backup
@@ -33,13 +33,12 @@ bot.on("message", async (msg) => {
     );
   } else if (msg.text.toString().toLowerCase().includes(report)) {
     const company = parseReportCompany(msg.text.toString());
-    reportLogs(company, msg, bot);
+    reportLogs(`${msg.chat.id}_${company}`, msg, bot);
   } else if (msg.text.toString().toLowerCase().includes(time)) {
     console.log("commit");
     const commit = parseCommit(msg.text.toString());
-    console.log(commit);
     const addCommit = appendCommit(
-      commit.company,
+      `${msg.chat.id}_${company}`,
       commit.message,
       commit.time.h,
       commit.time.m
@@ -52,6 +51,9 @@ bot.on("message", async (msg) => {
         : "add unsuccessfully! :("
     );
   } else {
-    bot.sendMessage(msg.chat.id, `bot not supported syntax!`);
+    bot.sendMessage(
+      msg.chat.id,
+      `bot not supported syntax! \n # ADD new work log \n CompanyName #time 5h 30m commit message\n# Get Total worklog Time\nget CompanyName total time\n# Restart and Backup worklog\nreset CompanyName\n# Report worklog\nreport CompanyName`
+    );
   }
 });
