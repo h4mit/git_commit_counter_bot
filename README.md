@@ -1,4 +1,4 @@
-# git_commit_counter_bot
+# Company Commit counter bot
 
 Git Commit Counter in Telegram group
 
