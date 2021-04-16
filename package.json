@@ -9,13 +9,16 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
+    "eslint": "^7.24.0",
     "eslint-config-esnext": "^4.1.0",
+    "eslint-plugin-import": "^2.22.1",
     "husky": "^6.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
-    "lintbe": "eslint src/**"
+    "lintbe": "eslint src/**",
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",

@@ -1,20 +1,57 @@
-"use strict";
-
-import TelegramBot from "node-telegram-bot-api";
-// const TelegramBot = require('node-telegram-bot-api');
-
-import dotenv from "dotenv";
-dotenv.config();
+const TelegramBot = require("node-telegram-bot-api");
+const { calculateWorkLog } = require("./services/calc");
+const {
+  parseCommit,
+  parseReportCompany,
+  parseTotalCompany,
+  parseResetCompany,
+} = require("./services/commit");
+const { appendCommit, backupCompany } = require("./services/file");
+const { reportLogs } = require("./services/report");
+require("dotenv").config();
 
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
-bot.on("message", (msg) => {
-  const bye = "bye";
-  if (msg.text.toString().toLowerCase().includes(bye)) {
+bot.on("message", async (msg) => {
+  const time = "#time";
+  const total = "total";
+  const reset = "reset";
+  const report = "report";
+  if (msg.text.toString().toLowerCase().includes(total)) {
+    const company = parseTotalCompany(msg.text.toString());
+    const totalTime = await calculateWorkLog(company);
+    bot.sendMessage(msg.chat.id, `company ${company} : ${totalTime}`);
+  } else if (msg.text.toString().toLowerCase().includes(reset)) {
+    const company = parseResetCompany(msg.text.toString());
+    const backup = backupCompany(company);
     bot.sendMessage(
       msg.chat.id,
-      "Have a nice day " + msg.from.first_name + msg.from.last_name
+      backup
+        ? `company ${company} has restart worklogs.`
+        : `company ${company} unsuccessfully restart worklogs. :'(`
     );
+  } else if (msg.text.toString().toLowerCase().includes(report)) {
+    const company = parseReportCompany(msg.text.toString());
+    reportLogs(company, msg, bot);
+  } else if (msg.text.toString().toLowerCase().includes(time)) {
+    console.log("commit");
+    const commit = parseCommit(msg.text.toString());
+    console.log(commit);
+    const addCommit = appendCommit(
+      commit.company,
+      commit.message,
+      commit.time.h,
+      commit.time.m
+    );
+
+    bot.sendMessage(
+      msg.chat.id,
+      addCommit
+        ? `Add commit in ${commit.company} company.`
+        : "add unsuccessfully! :("
+    );
+  } else {
+    bot.sendMessage(msg.chat.id, `bot not supported syntax!`);
   }
 });

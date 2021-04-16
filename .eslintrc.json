@@ -1,5 +1,10 @@
 {
-  "extends": ["eslint:recommended", "esnext"],
+  "extends": [
+    "eslint:recommended",
+    "esnext",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
   "parser": "babel-eslint",
 
   "env": {
@@ -10,5 +15,13 @@
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
+  },
+  "rules": {
+    // "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
+    // "import/named": 2,
+    // "import/namespace": 2,
+    // "import/default": 2,
+    // "import/export": 2,
+    "eslint-disable-next-line": true
   }
 }
