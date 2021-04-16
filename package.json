@@ -1,0 +1,35 @@
+{
+  "name": "git_commit_counter_bot",
+  "version": "1.0.0",
+  "description": "Git commit counter in Telegram gorups.",
+  "main": "src/index.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "node-telegram-bot-api": "^0.52.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint-config-esnext": "^4.1.0",
+    "husky": "^6.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "lintbe": "eslint src/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h4mit/git_commit_counter_bot.git"
+  },
+  "keywords": [
+    "H4mit",
+    "Telegram",
+    "BOT"
+  ],
+  "author": "Hamid Taheri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/h4mit/git_commit_counter_bot/issues"
+  },
+  "homepage": "https://github.com/h4mit/git_commit_counter_bot#readme"
+}
