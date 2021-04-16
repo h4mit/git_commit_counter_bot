@@ -24,7 +24,8 @@ exports.calculateWorkLog = async (company) => {
       }
     }
     hour += Math.floor(minute / 60);
-    return `${hour}:${minute % 60}`;
+    minute = minute - Math.floor(minute / 60) * 60;
+    return `${hour}:${minute}`;
   } catch (error) {
     console.log(error);
     return `Error calculate total WorkLog`;

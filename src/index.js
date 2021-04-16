@@ -20,10 +20,10 @@ bot.on("message", async (msg) => {
   const reset = "reset";
   const report = "report";
   if (msg.text.toString().toLowerCase().includes(total)) {
-    const company = parseTotalCompany(msg.text.toString());
+    const company = parseTotalCompany(msg.text.toString().toLowerCase());
     if (company) {
       const totalTime = await calculateWorkLog(
-        `file_${msg.chat.id}_${company}`
+        `file_${msg.from.id}_${msg.chat.id}_${company}`
       );
       bot.sendMessage(msg.chat.id, `company ${company} : ${totalTime}`);
     } else {
@@ -32,7 +32,9 @@ bot.on("message", async (msg) => {
   } else if (msg.text.toString().toLowerCase().includes(reset)) {
     const company = parseResetCompany(msg.text.toString().toLowerCase());
     if (company) {
-      const backup = backupCompany(`file_${msg.chat.id}_${company}`);
+      const backup = backupCompany(
+        `file_${msg.from.id}_${msg.chat.id}_${company}`
+      );
       bot.sendMessage(
         msg.chat.id,
         backup
@@ -45,7 +47,7 @@ bot.on("message", async (msg) => {
   } else if (msg.text.toString().toLowerCase().includes(report)) {
     const company = parseReportCompany(msg.text.toString().toLowerCase());
     if (company) {
-      reportLogs(`file_${msg.chat.id}_${company}`, msg, bot);
+      reportLogs(`file_${msg.from.id}_${msg.chat.id}_${company}`, msg, bot);
     } else {
       bot.sendMessage(msg.chat.id, `bad syntax!`);
     }
@@ -53,7 +55,7 @@ bot.on("message", async (msg) => {
     const commit = parseCommit(msg.text.toString());
     if (commit) {
       const addCommit = appendCommit(
-        `file_${msg.chat.id}_${commit.company}`,
+        `file_${msg.from.id}_${msg.chat.id}_${commit.company}`,
         commit.message,
         commit.time.h,
         commit.time.m
