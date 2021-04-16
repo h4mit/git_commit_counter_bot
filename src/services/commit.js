@@ -9,7 +9,7 @@ exports.parseCommit = (line) => {
       return null;
     }
     return {
-      company: match[2],
+      company: match[2].toUpperCase(),
       time: {
         h: match[4],
         m: match[6] || 0,
