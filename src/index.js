@@ -1,3 +1,5 @@
+process.env.NTBA_FIX_319 = 1;
+
 const TelegramBot = require("node-telegram-bot-api");
 const { calculateWorkLog } = require("./services/calc");
 const {
@@ -12,6 +14,7 @@ require("dotenv").config();
 
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
+console.log(`Bot Started`);
 
 bot.on("message", async (msg) => {
   console.log(msg);
